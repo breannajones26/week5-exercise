@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | Synergy Studios</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="nav">
+        <a href="index.html" class="nav__logo">Synergy <span>Studios</span></a>
+        <button class="nav__toggle" aria-label="Toggle navigation">
+          <span class="nav__toggle-bar"></span>
+          <span class="nav__toggle-bar"></span>
+          <span class="nav__toggle-bar"></span>
+        </button>
+        <ul class="nav__links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html" class="active">About</a></li>
+          <li><a href="classes.html">Classes</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Heading -->
+  <section class="hero">
+    <div class="container">
+      <h1>Our Story</h1>
+      <p>How a shared belief in balanced fitness grew into Orlando's home for group training.</p>
+    </div>
+  </section>
+
+  <!-- About Content -->
+  <section class="section">
+    <div class="container">
+      <div class="about-intro">
+        <img src="img/about.jpg" alt="Elena Reyes and David Okafor, founders and certified trainers of Synergy Studios" class="about-founders">
+        <div class="about-intro__text">
+          <h2>The Beginning</h2>
+          <p>Synergy Studios was founded in 2018 by Elena Reyes and David Okafor, two certified trainers who met while coaching at a community recreation center in Orlando. They noticed the same problem again and again: people would sign up for a gym membership, show up for a few weeks, and quietly disappear. The equipment was there, but the guidance and sense of belonging were not.</p>
+          <p>Elena had spent a decade teaching yoga and Pilates across Central Florida, while David built his career in strength and conditioning, working with everyone from college athletes to retirees rebuilding mobility after surgery. Despite their different specialties, they shared a conviction that fitness should be accessible, structured, and social. They believed a well-run class could accomplish what a room full of machines could not.</p>
+        </div>
+      </div>
+      <div class="about-content">
+
+        <h2>Building the Studio</h2>
+        <p>In the spring of 2018, they signed a lease on a 3,200-square-foot ground-floor space on West Central Boulevard, a few blocks from Lake Eola. The location was modest, with polished concrete floors, tall windows facing the sidewalk, and enough room for two studios running classes simultaneously. They outfitted it with kettlebells, resistance bands, rowing machines, yoga mats, and a sound system. There was no pool, no juice bar, and no locker room with a sauna. The focus was entirely on the classes.</p>
+        <p>They opened in August of that year with a schedule of twelve weekly classes and a roster of four instructors. Word spread through the neighborhood. By the end of the first year, the schedule had expanded to over thirty classes a week, and the studio had more than 300 active members.</p>
+
+
+        <h2>What We Are Today</h2>
+        <p>Synergy Studios now runs more than 40 classes each week across disciplines including yoga, strength training, cycling, HIIT, barre, and kickboxing. A team of twelve instructors brings a wide range of certifications and teaching styles to the schedule. We also offer one-on-one personal training sessions for members who want individualized programming.</p>
+        <p>Our membership reflects the diversity of the neighborhood. On any given morning, you might find a retired schoolteacher in a chair yoga class, a group of nurses finishing a night shift with a 6 AM spin session, and a college student working through a beginner strength program. The common thread is the decision to show up and do the work alongside other people.</p>
+
+        <h2 class="section-title">Our Values</h2>
+      </div>
+
+      <div class="values-grid">
+        <div class="value-item">
+          <h3>Consistency Over Intensity</h3>
+          <p>We design our classes and programs to be sustainable. A routine you can maintain for years will always outperform a plan that burns you out in weeks.</p>
+        </div>
+        <div class="value-item">
+          <h3>Qualified Instruction</h3>
+          <p>Every instructor at Synergy Studios holds current nationally recognized certifications. We invest in continuing education because the science of fitness keeps evolving.</p>
+        </div>
+        <div class="value-item">
+          <h3>Inclusive Environment</h3>
+          <p>Our classes serve people of all ages, body types, and experience levels. Instructors offer modifications for every exercise so no one is left behind or pushed beyond what is safe.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>Synergy Studios &middot; 742 West Central Boulevard, Orlando, FL 32801</p>
+      <p>(407) 555-0192 &middot; info@synergystudios.com</p>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="classes.html">Classes</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelector('.nav__toggle').addEventListener('click', function () {
+      document.querySelector('.nav__links').classList.toggle('open');
+    });
+  </script>
+
+</body>
+</html>

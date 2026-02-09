@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | Synergy Studios</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="nav">
+        <a href="index.html" class="nav__logo">Synergy <span>Studios</span></a>
+        <button class="nav__toggle" aria-label="Toggle navigation">
+          <span class="nav__toggle-bar"></span>
+          <span class="nav__toggle-bar"></span>
+          <span class="nav__toggle-bar"></span>
+        </button>
+        <ul class="nav__links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="classes.html">Classes</a></li>
+          <li><a href="contact.html" class="active">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Heading -->
+  <section class="hero">
+    <div class="container">
+      <h1>Get in Touch</h1>
+      <p>Questions about membership, scheduling, or anything else? We are happy to help.</p>
+    </div>
+  </section>
+
+  <!-- Contact Form & Info -->
+  <section class="section">
+    <div class="container">
+      <div class="contact-grid">
+
+        <!-- Form -->
+        <div>
+          <h2 class="section-title" style="text-align: left;">Send Us a Message</h2>
+          <form id="contact-form" action="#" method="post" novalidate>
+            <div class="form-group">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" name="name" required placeholder="Your full name">
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" required placeholder="you@example.com">
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" placeholder="(407) 555-0000">
+            </div>
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <select id="subject" name="subject" required>
+                <option value="" disabled selected>Choose a subject</option>
+                <option value="membership">Membership Inquiry</option>
+                <option value="classes">Class Information</option>
+                <option value="personal-training">Personal Training</option>
+                <option value="events">Events &amp; Workshops</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" required placeholder="How can we help you?"></textarea>
+            </div>
+            <button type="submit" class="btn btn--primary">Submit</button>
+            <p id="form-status" style="margin-top: 1rem; font-weight: 600; display: none;"></p>
+          </form>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="contact-info">
+          <h3>Contact Information</h3>
+          <div class="contact-methods">
+            <div class="contact-method">
+              <h4>Address</h4>
+              <p>742 West Central Boulevard<br>Orlando, FL 32801</p>
+            </div>
+            <div class="contact-method">
+              <h4>Phone</h4>
+              <p>(407) 555-0192</p>
+            </div>
+            <div class="contact-method">
+              <h4>Email</h4>
+              <p>info@synergystudios.com</p>
+            </div>
+            <div class="contact-method">
+              <h4>Front Desk Hours</h4>
+              <p>Monday &ndash; Friday: 7:00 AM &ndash; 8:00 PM<br>
+                 Saturday: 7:00 AM &ndash; 4:00 PM</p>
+            </div>
+          </div>
+          <p style="margin-top: 1.5rem; color: var(--color-text-light); font-size: 0.9rem;">We typically respond to email inquiries within one business day. For time-sensitive matters, please call us directly during front desk hours.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>Synergy Studios &middot; 742 West Central Boulevard, Orlando, FL 32801</p>
+      <p>(407) 555-0192 &middot; info@synergystudios.com</p>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="classes.html">Classes</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelector('.nav__toggle').addEventListener('click', function () {
+      document.querySelector('.nav__links').classList.toggle('open');
+    });
+
+    document.getElementById('contact-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var name = document.getElementById('name');
+      var email = document.getElementById('email');
+      var subject = document.getElementById('subject');
+      var message = document.getElementById('message');
+      var status = document.getElementById('form-status');
+      var valid = true;
+
+      [name, email, subject, message].forEach(function (field) {
+        field.style.borderColor = '';
+      });
+
+      if (name.value.trim() === '') {
+        name.style.borderColor = '#c0392b';
+        valid = false;
+      }
+
+      if (email.value.trim() === '' || email.value.indexOf('@') === -1) {
+        email.style.borderColor = '#c0392b';
+        valid = false;
+      }
+
+      if (subject.value === '') {
+        subject.style.borderColor = '#c0392b';
+        valid = false;
+      }
+
+      if (message.value.trim() === '') {
+        message.style.borderColor = '#c0392b';
+        valid = false;
+      }
+
+      if (!valid) {
+        status.textContent = 'Please complete all required fields.';
+        status.style.color = '#c0392b';
+        status.style.display = 'block';
+        return;
+      }
+
+      status.textContent = 'Thank you, ' + name.value.trim().split(' ')[0] + '. Your message has been submitted. We will be in touch soon.';
+      status.style.color = '#27865a';
+      status.style.display = 'block';
+
+      this.reset();
+    });
+  </script>
+
+</body>
+</html>
