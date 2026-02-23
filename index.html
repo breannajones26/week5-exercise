@@ -94,6 +94,48 @@
     </div>
   </section>
 
+  <!-- Leave a Review -->
+  <section class="section" id="reviews">
+    <div class="container">
+      <h2 class="section-title">Leave a Review</h2>
+      <p class="section-subtitle">We'd love to hear about your experience at Synergy Studios.</p>
+
+      <form class="review-form" id="review-form" novalidate>
+        <div class="form-group">
+          <label for="reviewer-name">Your Name</label>
+          <input type="text" id="reviewer-name" name="name" placeholder="Jane Smith" required>
+        </div>
+
+        <div class="form-group">
+          <label>Your Rating</label>
+          <div class="star-rating" id="star-rating" role="group" aria-label="Select a star rating">
+            <span class="star" data-value="1" role="button" tabindex="0" aria-label="1 star">&#9733;</span>
+            <span class="star" data-value="2" role="button" tabindex="0" aria-label="2 stars">&#9733;</span>
+            <span class="star" data-value="3" role="button" tabindex="0" aria-label="3 stars">&#9733;</span>
+            <span class="star" data-value="4" role="button" tabindex="0" aria-label="4 stars">&#9733;</span>
+            <span class="star" data-value="5" role="button" tabindex="0" aria-label="5 stars">&#9733;</span>
+          </div>
+          <input type="hidden" id="rating-value" name="rating" value="0">
+          <span class="star-rating__message" id="rating-message">Select a rating</span>
+        </div>
+
+        <div class="form-group">
+          <label for="review-text">Your Review</label>
+          <textarea id="review-text" name="review" rows="5" placeholder="Tell us about your experience..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn--primary">Submit Review</button>
+        <p class="review-form__status" id="review-status" aria-live="polite"></p>
+      </form>
+
+      <div class="reviews-display" id="reviews-display">
+        <h3 class="reviews-display__heading">Member Reviews</h3>
+        <div class="reviews-grid" id="reviews-grid"></div>
+        <p class="reviews-display__empty" id="reviews-empty">No reviews yet. Be the first to share your experience!</p>
+      </div>
+    </div>
+  </section>
+
   <!-- Location & Hours -->
   <section class="section section--alt">
     <div class="container">
@@ -145,6 +187,152 @@
     document.querySelector('.nav__toggle').addEventListener('click', function () {
       document.querySelector('.nav__links').classList.toggle('open');
     });
+
+    // ===========================
+    // Review Feature
+    // ===========================
+    (function () {
+      var stars = document.querySelectorAll('.star');
+      var ratingInput = document.getElementById('rating-value');
+      var ratingMessage = document.getElementById('rating-message');
+      var form = document.getElementById('review-form');
+      var statusEl = document.getElementById('review-status');
+      var reviewsGrid = document.getElementById('reviews-grid');
+      var reviewsEmpty = document.getElementById('reviews-empty');
+      var ratingLabels = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
+      var selectedRating = 0;
+
+      // --- Star hover and click ---
+      stars.forEach(function (star) {
+        star.addEventListener('mouseenter', function () {
+          var val = parseInt(this.dataset.value);
+          highlightStars(val);
+          ratingMessage.textContent = ratingLabels[val];
+        });
+
+        star.addEventListener('mouseleave', function () {
+          highlightStars(selectedRating);
+          ratingMessage.textContent = selectedRating ? ratingLabels[selectedRating] : 'Select a rating';
+        });
+
+        star.addEventListener('click', function () {
+          selectedRating = parseInt(this.dataset.value);
+          ratingInput.value = selectedRating;
+          highlightStars(selectedRating);
+          ratingMessage.textContent = ratingLabels[selectedRating];
+        });
+
+        // Keyboard accessibility
+        star.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            selectedRating = parseInt(this.dataset.value);
+            ratingInput.value = selectedRating;
+            highlightStars(selectedRating);
+            ratingMessage.textContent = ratingLabels[selectedRating];
+          }
+        });
+      });
+
+      function highlightStars(count) {
+        stars.forEach(function (s) {
+          s.classList.toggle('star--selected', parseInt(s.dataset.value) <= count);
+        });
+      }
+
+      // --- Form submission ---
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var name = document.getElementById('reviewer-name').value.trim();
+        var rating = parseInt(ratingInput.value);
+        var text = document.getElementById('review-text').value.trim();
+
+        if (!name) {
+          showStatus('Please enter your name.', false);
+          return;
+        }
+        if (!rating || rating < 1) {
+          showStatus('Please select a star rating.', false);
+          return;
+        }
+        if (!text) {
+          showStatus('Please write your review.', false);
+          return;
+        }
+
+        var review = {
+          name: name,
+          rating: rating,
+          text: text,
+          date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+        };
+
+        // Save and render
+        var reviews = loadReviews();
+        reviews.unshift(review);
+        localStorage.setItem('synergyReviews', JSON.stringify(reviews));
+        renderReviews(reviews);
+
+        // Reset form state
+        form.reset();
+        selectedRating = 0;
+        ratingInput.value = 0;
+        highlightStars(0);
+        ratingMessage.textContent = 'Select a rating';
+        showStatus('Thank you for your review!', true);
+      });
+
+      function showStatus(msg, success) {
+        statusEl.textContent = msg;
+        statusEl.className = 'review-form__status ' + (success ? 'review-form__status--success' : 'review-form__status--error');
+        setTimeout(function () {
+          statusEl.textContent = '';
+          statusEl.className = 'review-form__status';
+        }, 4000);
+      }
+
+      // --- localStorage helpers ---
+      function loadReviews() {
+        try {
+          return JSON.parse(localStorage.getItem('synergyReviews')) || [];
+        } catch (err) {
+          return [];
+        }
+      }
+
+      // --- Render review cards ---
+      function renderReviews(reviews) {
+        reviewsGrid.innerHTML = '';
+        if (reviews.length === 0) {
+          reviewsEmpty.style.display = 'block';
+          return;
+        }
+        reviewsEmpty.style.display = 'none';
+        reviews.forEach(function (review) {
+          var filledStars = '\u2605'.repeat(review.rating);
+          var emptyStars = '\u2606'.repeat(5 - review.rating);
+          var card = document.createElement('div');
+          card.className = 'review-card';
+          card.innerHTML =
+            '<div class="review-card__stars">' + filledStars + emptyStars + '</div>' +
+            '<p class="review-card__text">' + escapeHtml(review.text) + '</p>' +
+            '<p class="review-card__author">' + escapeHtml(review.name) + ' &middot; ' + review.date + '</p>';
+          reviewsGrid.appendChild(card);
+        });
+      }
+
+      function escapeHtml(str) {
+        return str
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      // Load saved reviews on page load
+      renderReviews(loadReviews());
+    })();
   </script>
 
 </body>
